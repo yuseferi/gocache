@@ -5,8 +5,7 @@
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 ![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/yuseferi/gocache)
 
-gocache provides  a data race-free cache implementation in Go. 
-
+gocache is a data race-free cache implementation in Go, providing efficient caching capabilities for your applications.
 
 ### Installation
 
@@ -15,7 +14,6 @@ gocache provides  a data race-free cache implementation in Go.
 ```
 
 ### Usage:
-
 
 
 ```Go
