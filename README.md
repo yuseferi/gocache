@@ -1,4 +1,4 @@
-# gocache (zap with context)
+# gocache (basic go in-memory caching)
 [![codecov](https://codecov.io/github/yuseferi/gocache/branch/codecov-integration/graph/badge.svg?token=64IHXT3ROF)](https://codecov.io/github/yuseferi/gocache)
 [![CodeQL](https://github.com/yuseferi/gocache/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/yuseferi/gocache/actions/workflows/github-code-scanning/codeql)
 [![Check & Build](https://github.com/yuseferi/gocache/actions/workflows/ci.yml/badge.svg)](https://github.com/yuseferi/gocache/actions/workflows/ci.yml)
