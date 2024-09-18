@@ -1,5 +1,5 @@
 # gocache (basic go in-memory caching)
-[![codecov](https://codecov.io/github/yuseferi/gocache/branch/codecov-integration/graph/badge.svg?token=64IHXT3ROF)](https://codecov.io/github/yuseferi/gocache)
+[![codecov](https://codecov.io/github/yuseferi/gocache/graph/badge.svg?token=98CX2MN5XF)](https://codecov.io/github/yuseferi/gocache)
 [![CodeQL](https://github.com/yuseferi/gocache/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/yuseferi/gocache/actions/workflows/github-code-scanning/codeql)
 [![Check & Build](https://github.com/yuseferi/gocache/actions/workflows/ci.yml/badge.svg)](https://github.com/yuseferi/gocache/actions/workflows/ci.yml)
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
