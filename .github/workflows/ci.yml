@@ -18,14 +18,11 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Calculate checksum for configuration
-        id: checksum
-        run: echo "CONFIG_HASH=$(cat .golangci.yaml | sha256sum | awk '{ print $1 }')" >> $GITHUB_ENV
-
       - name: Linter
-        uses: golangci/golangci-lint-action@v3
+        uses: golangci/golangci-lint-action@v9.2.0
         with:
           version: v2.7.2
+
   tests:
       name: Tests
       needs: lint
