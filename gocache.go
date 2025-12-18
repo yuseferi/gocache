@@ -2,7 +2,7 @@
 //
 // Usage:
 //
-//	cache := gocache.NewCache(time.Minute * 2) // with 2 minutes interval cleaning
+//	cache := gocache.NewCache[string](time.Minute * 2) // with 2 minutes interval cleaning
 //	cache.Set("key", "value", time.Minute)
 //	value, found := cache.Get("key")
 //	cache.Delete("key")
@@ -16,21 +16,21 @@ import (
 )
 
 // Cache represents a data race-free cache.
-type Cache struct {
-	items                map[string]cacheItem
+type Cache[T any] struct {
+	items                map[string]cacheItem[T]
 	mutex                sync.RWMutex
 	cleanupExpiredPeriod time.Duration
 }
 
-type cacheItem struct {
-	value      interface{}
+type cacheItem[T any] struct {
+	value      T
 	expiration time.Time
 }
 
 // NewCache creates a new Cache instance.
-func NewCache(cleanupExpiredPeriod time.Duration) *Cache {
-	cache := &Cache{
-		items: make(map[string]cacheItem),
+func NewCache[T any](cleanupExpiredPeriod time.Duration) *Cache[T] {
+	cache := &Cache[T]{
+		items: make(map[string]cacheItem[T]),
 	}
 	cache.cleanupExpiredPeriod = cleanupExpiredPeriod
 	// Start a goroutine to periodically check for expired items and remove them
@@ -43,17 +43,19 @@ func NewCache(cleanupExpiredPeriod time.Duration) *Cache {
 // It returns the value and a boolean indicating whether the key was found or not.
 // If the key is found but the associated item has expired, the value will be nil
 // and the boolean will be false.
-func (c *Cache) Get(key string) (interface{}, bool) {
+func (c *Cache[T]) Get(key string) (T, bool) {
 	c.mutex.RLock()
 	defer c.mutex.RUnlock()
 
 	item, found := c.items[key]
 	if !found {
-		return nil, false
+		var v T
+		return v, false
 	}
 
 	if item.expiration.Before(time.Now()) {
-		return nil, false
+		var v T
+		return v, false
 	}
 
 	return item.value, true
@@ -61,12 +63,12 @@ func (c *Cache) Get(key string) (interface{}, bool) {
 
 // Set adds or updates a key-value pair in the cache with the specified expiration duration.
 // If the key already exists, its value and expiration are updated.
-func (c *Cache) Set(key string, value interface{}, expiration time.Duration) {
+func (c *Cache[T]) Set(key string, value T, expiration time.Duration) {
 	c.mutex.Lock()
 	defer c.mutex.Unlock()
 
 	expirationTime := time.Now().Add(expiration)
-	c.items[key] = cacheItem{
+	c.items[key] = cacheItem[T]{
 		value:      value,
 		expiration: expirationTime,
 	}
@@ -74,7 +76,7 @@ func (c *Cache) Set(key string, value interface{}, expiration time.Duration) {
 
 // Delete removes the specified key and its associated value from the cache.
 // If the key does not exist in the cache, the function does nothing.
-func (c *Cache) Delete(key string) {
+func (c *Cache[T]) Delete(key string) {
 	c.mutex.Lock()
 	defer c.mutex.Unlock()
 
@@ -82,15 +84,15 @@ func (c *Cache) Delete(key string) {
 }
 
 // Clear removes all items from the cache, making it empty.
-func (c *Cache) Clear() {
+func (c *Cache[T]) Clear() {
 	c.mutex.Lock()
 	defer c.mutex.Unlock()
 
-	c.items = make(map[string]cacheItem)
+	c.items = make(map[string]cacheItem[T])
 }
 
 // Size returns the number of items currently stored in the cache.
-func (c *Cache) Size() int {
+func (c *Cache[T]) Size() int {
 	c.mutex.RLock()
 	defer c.mutex.RUnlock()
 
@@ -99,7 +101,7 @@ func (c *Cache) Size() int {
 
 // deleteExpiredItems is a background goroutine that periodically checks for expired items in the cache
 // and removes them. It runs indefinitely after the Cache is created.
-func (c *Cache) deleteExpiredItems() {
+func (c *Cache[T]) deleteExpiredItems() {
 	for {
 		<-time.After(c.cleanupExpiredPeriod) // Adjust the time interval for checking expired items
 

@@ -9,7 +9,7 @@ import (
 )
 
 func BenchmarkCache_Set(b *testing.B) {
-	cache := NewCache(time.Minute)
+	cache := NewCache[string](time.Minute)
 	for i := 0; i < b.N; i++ {
 		key := strconv.Itoa(i)
 		value := fmt.Sprintf("value%d", i)
@@ -18,7 +18,7 @@ func BenchmarkCache_Set(b *testing.B) {
 }
 
 func BenchmarkCache_Get(b *testing.B) {
-	cache := NewCache(time.Minute)
+	cache := NewCache[string](time.Minute)
 	for i := 0; i < b.N; i++ {
 		key := strconv.Itoa(i)
 		value := fmt.Sprintf("value%d", i)
@@ -34,7 +34,7 @@ func BenchmarkCache_Get(b *testing.B) {
 }
 
 func BenchmarkCache_Delete(b *testing.B) {
-	cache := NewCache(time.Minute)
+	cache := NewCache[string](time.Minute)
 	for i := 0; i < b.N; i++ {
 		key := strconv.Itoa(i)
 		value := fmt.Sprintf("value%d", i)
@@ -50,7 +50,7 @@ func BenchmarkCache_Delete(b *testing.B) {
 }
 
 func BenchmarkCache_ConcurrentAccess(b *testing.B) {
-	cache := NewCache(time.Minute)
+	cache := NewCache[string](time.Minute)
 	concurrency := 100
 	numOperations := b.N
 
