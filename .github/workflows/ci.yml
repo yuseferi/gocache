@@ -21,7 +21,6 @@ jobs:
         uses: golangci/golangci-lint-action@v3
         with:
           version: v2.7.2
-          fail_ci_if_error: true
   tests:
       name: Tests
       needs: lint
