@@ -17,7 +17,7 @@ gocache is a data race-free cache implementation in Go, providing efficient cach
 
 
 ```Go
-cache := gocache.NewCache(time.Minute * 2) // with 2 minutes interval cleaning expired items
+cache := gocache.NewCache[string](time.Minute * 2) // with 2 minutes interval cleaning expired items
 cache.Set("key", "value", time.Minute) // set cache 
 value, found := cache.Get("key") // retrive cache data 
 cache.Delete("key") // delete specific key manually

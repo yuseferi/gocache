@@ -6,7 +6,7 @@ import (
 )
 
 func TestCache_Get(t *testing.T) {
-	cache := NewCache(time.Second)
+	cache := NewCache[string](time.Second)
 	cache.Set("key", "value", time.Second)
 
 	value, found := cache.Get("key")
@@ -19,19 +19,19 @@ func TestCache_Get(t *testing.T) {
 	// Test if it really expired
 	time.Sleep(time.Second * 2)
 	value, found = cache.Get("key")
-	if found || value != nil {
+	if found || value != "" {
 		t.Errorf("Expected key 'key' to be expired and not found")
 	}
 
 	// Test a non-existent key
 	value, found = cache.Get("nonexistent")
-	if found || value != nil {
+	if found || value != "" {
 		t.Errorf("Expected non-existent key to not be found")
 	}
 }
 
 func TestCache_Set(t *testing.T) {
-	cache := NewCache(time.Second)
+	cache := NewCache[string](time.Second)
 
 	// Test setting a key-value pair
 	cache.Set("key", "value", time.Minute)
@@ -59,7 +59,7 @@ func TestCache_Set(t *testing.T) {
 }
 
 func TestCache_Delete(t *testing.T) {
-	cache := NewCache(time.Second)
+	cache := NewCache[string](time.Second)
 	cache.Set("key", "value", time.Minute)
 
 	// Delete an existing key
@@ -76,7 +76,7 @@ func TestCache_Delete(t *testing.T) {
 }
 
 func TestCache_Clear(t *testing.T) {
-	cache := NewCache(time.Second)
+	cache := NewCache[string](time.Second)
 	cache.Set("key1", "value1", time.Minute)
 	cache.Set("key2", "value2", time.Minute)
 
@@ -90,7 +90,7 @@ func TestCache_Clear(t *testing.T) {
 }
 
 func TestCache_Size(t *testing.T) {
-	cache := NewCache(time.Second)
+	cache := NewCache[string](time.Second)
 
 	// Empty cache
 	if size := cache.Size(); size != 0 {
