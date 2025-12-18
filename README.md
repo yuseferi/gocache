@@ -7,10 +7,11 @@
 
 gocache is a data race-free cache implementation in Go, providing efficient caching capabilities for your applications.
 
+#### for V1 you can read [this](https://github.com/yuseferi/gocache/tree/v1) 
 ### Installation
 
 ```shell
-  go get -u github.com/yuseferi/gocache
+  go get -u github.com/yuseferi/gocache/v2
 ```
 
 ### Usage:
