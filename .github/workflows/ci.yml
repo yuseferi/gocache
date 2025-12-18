@@ -20,7 +20,7 @@ jobs:
       - name: Linter
         uses: golangci/golangci-lint-action@v3
         with:
-          version: v1.53.2
+          version: v2.7.2
           fail_ci_if_error: true
   tests:
       name: Tests
