@@ -30,6 +30,27 @@ func TestCache_Get(t *testing.T) {
 	}
 }
 
+func TestCache_Get_ExpiredItemBeforeCleanup(t *testing.T) {
+	// Use a long cleanup period to ensure the cleanup goroutine doesn't run during the test
+	cache := NewCache[string](time.Hour)
+
+	// Set an item with a very short expiration
+	cache.Set("key", "value", time.Millisecond)
+
+	// Wait for the item to expire (but cleanup goroutine won't run)
+	time.Sleep(time.Millisecond * 10)
+
+	// The item should still exist in the cache map but be expired
+	// Get should return zero value and false for expired items
+	value, found := cache.Get("key")
+	if found {
+		t.Errorf("Expected expired key 'key' to not be found")
+	}
+	if value != "" {
+		t.Errorf("Expected zero value for expired key, got %v", value)
+	}
+}
+
 func TestCache_Set(t *testing.T) {
 	cache := NewCache[string](time.Second)
 

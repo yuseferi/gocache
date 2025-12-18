@@ -2,7 +2,7 @@
 //
 // Usage:
 //
-//	cache := gocache.NewCache(time.Minute * 2) // with 2 minutes interval cleaning
+//	cache := gocache.NewCache[string](time.Minute * 2) // with 2 minutes interval cleaning
 //	cache.Set("key", "value", time.Minute)
 //	value, found := cache.Get("key")
 //	cache.Delete("key")
